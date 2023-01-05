@@ -1,0 +1,171 @@
+Table employee:
+select * from employee;
++-------------+------------+-----------+--------+---------------------+------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-------------+------------+-----------+--------+---------------------+------------+
+|           1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|           2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|           3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|           4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|           5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|           6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|           7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|           8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-------------+------------+-----------+--------+---------------------+------------+
+8 rows in set (0.00 sec)
+
+Table title:
+select * from title;
++-----------------+----------------+---------------------+
+| Employee_REF_ID | Employee_TITLE | AFFECTED_FROM       |
++-----------------+----------------+---------------------+
+|               1 | Manager        | 2016-02-20 00:00:00 |
+|               2 | Executive      | 2016-06-11 00:00:00 |
+|               8 | Executive      | 2016-06-11 00:00:00 |
+|               5 | Manager        | 2016-06-11 00:00:00 |
+|               4 | Asst. Manager  | 2016-06-11 00:00:00 |
+|               7 | Executive      | 2016-06-11 00:00:00 |
+|               6 | Lead           | 2016-06-11 00:00:00 |
+|               3 | Lead           | 2016-06-11 00:00:00 |
++-----------------+----------------+---------------------+
+8 rows in set (0.00 sec)
+
+1.Write an SQL query to fetch "FIRST_NAME" from Employee table using the alias name as EMPLOYEE_NAME
+
+Select FIRST_NAME AS EMPLOYEE_NAME from EMPLOYEE;
++---------------+
+| EMPLOYEE_NAME |
++---------------+
+| Monika        |
+| Niharika      |
+| Vishal        |
+| Amitabh       |
+| Vivek         |
+| Vipul         |
+| Satish        |
+| Geetika       |
++---------------+
+8 rows in set (0.00 sec)
+
+2.Write an SQL query that fetches the unique values of DEPARTMENT from EMPLOYEE table and prints its length.
+
+Select distinct length(DEPARTMENT) from EMPLOYEE;
++--------------------+
+| length(DEPARTMENT) |
++--------------------+
+|                  2 |
+|                  5 |
+|                  7 |
++--------------------+
+3 rows in set (0.00 sec)
+
+3.Write an SQL query to print the FIRST_NAME from EMPLOYEE table after replacing 'a' with 'A'.
+
+Select REPLACE(FIRST_NAME,'a','A') from EMPLOYEE;
++-----------------------------+
+| REPLACE(FIRST_NAME,'a','A') |
++-----------------------------+
+| MonikA                      |
+| NihArikA                    |
+| VishAl                      |
+| AmitAbh                     |
+| Vivek                       |
+| Vipul                       |
+| SAtish                      |
+| GeetikA                     |
++-----------------------------+
+8 rows in set (0.00 sec)
+
+4.Write an SQL query to print the FIRST_NAME and LAST_NAME from EMPLOYEE table into a single column COMPLETE_NAME. A space char should separate them.
+
+Select CONCAT(FIRST_NAME, ' ', LAST_NAME) AS 'COMPLETE_NAME' from EMPLOYEE;
++-----------------+
+| COMPLETE_NAME   |
++-----------------+
+| Monika Arora    |
+| Niharika Verma  |
+| Vishal Singhal  |
+| Amitabh Singh   |
+| Vivek Bhati     |
+| Vipul Diwan     |
+| Satish Kumar    |
+| Geetika Chauhan |
++-----------------+
+8 rows in set (0.00 sec)
+
+5.Write an SQL query to print details of EMPLOYEEs excluding first names, "Vipul" and "Satish" from EMPLOYEE table.
+
+Select * from EMPLOYEE where FIRST_NAME not in ('Vipul','Satish');
++-------------+------------+-----------+--------+---------------------+------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-------------+------------+-----------+--------+---------------------+------------+
+|           1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|           2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|           3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|           4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|           5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|           8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-------------+------------+-----------+--------+---------------------+------------+
+6 rows in set (0.00 sec)
+
+6.Write an SQL query to print details of the EMPLOYEEs whose FIRST_NAME contains 'a'.
+
+Select * from EMPLOYEE where FIRST_NAME like '%a%';
++-------------+------------+-----------+--------+---------------------+------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-------------+------------+-----------+--------+---------------------+------------+
+|           1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|           2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|           3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|           4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|           7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|           8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-------------+------------+-----------+--------+---------------------+------------+
+6 rows in set (0.00 sec)
+
+7.Write an SQL query to print details of the EMPLOYEEs who have joined in Feb-2014.
+
+Select * from EMPLOYEE where year(JOINING_DATE) = 2014 and month(JOINING_DATE) = 2;
++-------------+------------+-----------+--------+---------------------+------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-------------+------------+-----------+--------+---------------------+------------+
+|           1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|           3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|           4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
++-------------+------------+-----------+--------+---------------------+------------+
+3 rows in set (0.01 sec)
+
+8.Write an SQL query to print details of the EMPLOYEEs who are also Managers.
+
+SELECT DISTINCT E.FIRST_NAME, T.EMPLOYEE_TITLE FROM EMPLOYEE E INNER JOIN Title T ON E.EMPLOYEE_ID = T.EMPLOYEE_REF_ID AND T.EMPLOYEE_TITLE in ('Manager');
++------------+----------------+
+| FIRST_NAME | EMPLOYEE_TITLE |
++------------+----------------+
+| Monika     | Manager        |
+| Vivek      | Manager        |
++------------+----------------+
+2 rows in set (0.00 sec)
+
+9.Write an SQL query to fetch duplicate records having matching data in some fields of table title.
+
+SELECT EMPLOYEE_TITLE, AFFECTED_FROM,COUNT(*) FROM Title GROUP BY EMPLOYEE_TITLE, AFFECTED_FROM HAVING COUNT(*) > 1;
++----------------+---------------------+----------+
+| EMPLOYEE_TITLE | AFFECTED_FROM       | COUNT(*) |
++----------------+---------------------+----------+
+| Executive      | 2016-06-11 00:00:00 |        3 |
+| Lead           | 2016-06-11 00:00:00 |        2 |
++----------------+---------------------+----------+
+2 rows in set (0.00 sec)
+
+10.Write an SQL query to show only odd rows from a table.
+
+SELECT * FROM EMPLOYEE WHERE MOD (EMPLOYEE_ID, 2);
++-------------+------------+-----------+--------+---------------------+------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-------------+------------+-----------+--------+---------------------+------------+
+|           1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|           3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|           5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|           7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
++-------------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)

@@ -1,0 +1,161 @@
+1. List full details of all hotels.
+select * from hotel_table;
++----------+------------------+----------+
+| hotel_no | name             | city     |
++----------+------------------+----------+
+| h111     | empire hotel     | new york |
+| h235     | park place       | new york |
+| h432     | brownstone hotel | toronto  |
+| h498     | gems plaza       | toronto  |
+| h193     | devon hotel      | boston   |
+| h437     | clairmont hotel  | boston   |
++----------+------------------+----------+
+6 rows in set (0.01 sec)
+
+2.List full details of all hotels in New York.
+select * from hotel_table where city="new york";
++----------+--------------+----------+
+| hotel_no | name         | city     |
++----------+--------------+----------+
+| h111     | empire hotel | new york |
+| h235     | park place   | new york |
++----------+--------------+----------+
+2 rows in set (0.00 sec)
+
+3.List the names and cities of all guests, ordered according to their cities.
+select * from guest_table order by city;
++----------+---------------+--------------+
+| guest_no | name          | city         |
++----------+---------------+--------------+
+| g467     | robert swift  | atlanta      |
+| g367     | tara cummings | baltimore    |
+| g190     | edward cane   | baltimore    |
+| g230     | tom hancock   | philadelphia |
+| g256     | adam wayne    | pittsburgh   |
+| g879     | venessa parry | pittsburgh   |
++----------+---------------+--------------+
+6 rows in set (0.01 sec)
+
+4. List all details for non-smoking rooms in ascending order of price.
+select * from room_table where type="n" order by price;
++---------+----------+------+-------+
+| room_no | hotel_no | type | price |
++---------+----------+------+-------+
+| 257     | h437     | n    |   140 |
+| 412     | h111     | n    |   145 |
+| 223     | h437     | n    |   155 |
+| 345     | h498     | n    |   160 |
+| 1267    | h235     | n    |   175 |
+| 1201    | h193     | n    |   175 |
+| 467     | h498     | n    |   180 |
+| 1289    | h235     | n    |   195 |
++---------+----------+------+-------+
+8 rows in set (0.01 sec)
+
+5. List the number of hotels there are.
+select count(*) from hotel_table;
++----------+
+| count(*) |
++----------+
+|        6 |
++----------+
+1 row in set (0.01 sec)
+
+6. List the cities in which guests live. Each city should be listed only once.
+select distinct city from guest_table;
++--------------+
+| city         |
++--------------+
+| pittsburgh   |
+| baltimore    |
+| philadelphia |
+| atlanta      |
++--------------+
+4 rows in set (0.01 sec)
+
+7. List the average price of a room.
+select avg(price) from room_table;
++--------------------+
+| avg(price)         |
++--------------------+
+| 155.66666666666666 |
++--------------------+
+1 row in set (0.00 sec)
+
+8.List hotel names, their room numbers, and the type of that room.
+select name, room_no, price from hotel_name h, room_table r where h.hotel_no=r.hotel_no;
++------------------+---------+-------+
+| name             | room_no | price |
++------------------+---------+-------+
+| empire hotel     | 313     |   145 |
+| empire hotel     | 412     |   145 |
+| park place       | 1267    |   175 |
+| park place       | 1289    |   195 |
+| brownstone hotel | 876     |   124 |
+| brownstone hotel | 898     |   124 |
+| gems plaza       | 345     |   160 |
+| gems plaza       | 467     |   180 |
+| devon hotel      | 1001    |   150 |
+| devon hotel      | 1201    |   175 |
+| clairmont hotel  | 257     |   140 |
+| clairmont hotel  | 223     |   155 |
++------------------+---------+-------+
+12 rows in set (0.01 sec)
+
+9. List the hotel names, booking dates, and room numbers for all hotels in New York.
+select name, date_from, room_no from hotel_name h, booking_table b where h.hotel_no=b.hotel_no and h.city="new york";
++--------------+------------+---------+
+| name         | date_from  | room_no |
++--------------+------------+---------+
+| empire hotel | 1999-08-10 | 412     |
+| empire hotel | 1999-08-18 | 412     |
+| park place   | 1999-09-05 | 1267    |
++--------------+------------+---------+
+3 rows in set (0.00 sec)
+
+10.What is the number of bookings that started in the month of September?
+select count(*) from booking_table where date_from>='1999-09-01';
++----------+
+| count(*) |
++----------+
+|        9 |
++----------+
+1 row in set (0.00 sec)
+
+11.List the names and cities of guests who began a stay in New York in August.
+select name,city from guest_table, booking_table where guest_table.guest_no=booking_table.guest_no and date_from>='1999-08-01' and date_from<='1999-08-31';
++---------------+------------+
+| name          | city       |
++---------------+------------+
+| adam wayne    | pittsburgh |
+| tara cummings | baltimore  |
++---------------+------------+
+2 rows in set (0.00 sec)
+
+12.List the hotel names and room numbers of any hotel rooms that have not been booked.
+
+
+13.List the hotel name and city of the hotel with the highest priced room.
+select h.name, h.city from hotel_name h,room_table r where r.hotel_no=h.hotel_no and r.price=(select max(price) from room_table);
++------------+----------+
+| name       | city     |
++------------+----------+
+| park place | new york |
++------------+----------+
+1 row in set (0.00 sec)
+
+14.List hotel names, room numbers, cities, and prices for hotels that have rooms with prices lower than the lowest priced room in a Boston hotel.
+select h.name, r.room_no,h.city,r.price from room_table r, hotel_name h where r.price=(select min(r.price) from room_table r, hotel_name h where h.hotel_no=r.hotel_no and h.name="boston hotel");
+Empty set (0.00 sec)
+
+15.List the average price of a room grouped by city
+select avg(price)from room_table r, hotel_name h where r.hotel_no=h.hotel_no group by h.city;
++------------+
+| avg(price) |
++------------+
+|        165 |
+|        147 |
+|        155 |
++------------+
+3 rows in set (0.01 sec)
+
