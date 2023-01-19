@@ -1,0 +1,147 @@
+mysql> select * from voter;
++------+----------+------+
+| id   | name     | age  |
++------+----------+------+
+|    1 | Vini     |   22 |
+|    2 | Shalini  |   30 |
+|    3 | Dheepthi |   15 |
+|    4 | Bharan   |   18 |
+|    5 | Abdul    |    3 |
+|    6 | Amritha  |   20 |
++------+----------+------+
+---CASE-WHEN---
+
+mysql> select id,name,
+    -> case
+    -> when age>=18 Then 'Allowed'
+    -> end as can_vote
+    -> from voters;
++------+----------+-----------+
+| id   | name     | can_vote  |
++------+----------+-----------+
+|    1 | Vini     | Allowed   |
+|    2 | Shalini  | Allowed   |
+|    3 | Dheepthi | NULL      |
+|    4 | Bharan   | Allowed   |
+|    5 | Abdul    | NULL      |
+|    6 | Amritha  | Allowed   |
++------+----------+-----------+
+6 rows in set (0.01 sec)
+
+---Row_number()---
+
+mysql> select row_number() over (order by name) row_nu
+m,name,age from voters order by name;
++---------+----------+------+
+| row_num | name     | age  |
++---------+----------+------+
+|       1 | Abdul    |    3 |
+|       2 | Amritha  |   20 |
+|       3 | Bharan   |   18 |
+|       4 | Dheepthi |   15 |
+|       5 | Shalini  |   30 |
+|       6 | Vini     |   22 |
++---------+----------+------+
+6 rows in set (0.01 sec)
+
+---rank---
+
+mysql> select name, rank() over(order by age) age_rank from voters;
++----------+----------+
+| name     | age_rank |
++----------+----------+
+| Abdul    |        1 |
+| Dheepthi |        2 |
+| Bharan   |        3 |
+| Amritha  |        4 |
+| Vini     |        5 |
+| Shalini  |        6 |
++----------+----------+
+6 rows in set (0.01 sec)
+
+---Partition By---
+
+mysql> create table sales(id int,
+    -> name varchar(20),
+    -> bill_date date,
+    -> bill_amt decimal(8,2)) partition by range(year(bill_date))(PARTITION p0 VALUES LESS THAN (2016),
+    -> PARTITION p1 VALUES LESS THAN (2017),
+    -> PARTITION p2 VALUES LESS THAN (2018),
+    -> PARTITION p3 VALUES LESS THAN (2020));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from sales;
++------+---------+------------+----------+
+| id   | name    | bill_date  | bill_amt |
++------+---------+------------+----------+
+|    1 | Vini    | 2015-01-02 |   500.56 |
+|    2 | Abdul   | 2015-01-25 |   476.50 |
+|    3 | Shalini | 2016-02-15 |   335.00 |
+|    4 | Bharan  | 2016-03-26 |   787.00 |
+|    5 | Dheepthi| 2017-04-19 |   678.00 |
+|    6 | Amritha | 2017-05-31 |   864.00 |
+|    7 | Ashwini | 2018-06-11 |   762.00 |
+|    8 | Chris   | 2019-07-24 |   300.00 |
+|    9 | Ben     | 2019-08-02 |   492.20 |
++------+---------+------------+----------+
+9 rows in set (0.01 sec) 
+
+---Group by---
+mysql> select count(id),year(bill_date) from sales group by year(bill_date);
++-----------+-----------------+
+| count(id) | year(bill_date) |
++-----------+-----------------+
+|         2 |            2015 |
+|         2 |            2016 |
+|         2 |            2017 |
+|         1 |            2018 |
+|         2 |            2019 |
++-----------+-----------------+
+5 rows in set (0.01 sec)
+
+---Aggregate Functions---
+
+count()
+mysql> select count(id) from sales;
++-----------+
+| count(id) |
++-----------+
+|         9 |
++-----------+
+1 row in set (0.00 sec)
+
+sum()
+mysql> select sum(bill_amt) from sales;
++---------------+
+| sum(bill_amt) |
++---------------+
+|       4820.26 |
++---------------+
+1 row in set (0.01 sec)
+
+avg()
+mysql> select avg(bill_amt) from sales;
++---------------+
+| avg(bill_amt) |
++---------------+
+|    535.584444 |
++---------------+
+1 row in set (0.00 sec)
+
+max()
+mysql> select max(bill_amt) from sales;
++---------------+
+| max(bill_amt) |
++---------------+
+|        864.00 |
++---------------+
+1 row in set (0.01 sec)
+
+min()
+mysql> select min(bill_amt) from sales;
++---------------+
+| min(bill_amt) |
++---------------+
+|        125.56 |
++---------------+
+1 row in set (0.00 sec)
